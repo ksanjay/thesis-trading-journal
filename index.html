@@ -64,7 +64,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .theme-btn.active{background:var(--s3);color:var(--t1);}
 
 /* ── Main ─────────────────────────────────────────────────────────────── */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;min-height:0;}
 .main-header{padding:0 28px;height:58px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:16px;}
 .header-left{display:flex;flex-direction:column;gap:2px;}
 .main-title{font-family:Georgia,'Times New Roman',serif;font-size:1.05rem;font-weight:400;color:var(--t1);}
@@ -79,7 +79,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.75)}}
 
 /* ── Journal ──────────────────────────────────────────────────────────── */
-.journal{flex:1;overflow-y:auto;padding:26px 28px 40px;scrollbar-width:thin;scrollbar-color:var(--s3) transparent;}
+.journal{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:26px 28px 40px;scrollbar-width:thin;scrollbar-color:var(--s3) transparent;}
 .journal::-webkit-scrollbar{width:4px;}
 .journal::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px;}
 .alert-banner{display:flex;align-items:center;gap:14px;background:var(--au-bg);border:1px solid var(--au-bd);border-radius:var(--r);padding:14px 18px;margin-bottom:28px;cursor:pointer;transition:background 0.15s;}
@@ -263,8 +263,10 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
 .success-sub{font-size:0.75rem;color:var(--t2);}
 
 /* ── Pages ────────────────────────────────────────────────────────────── */
-.page{display:none;}
-.page.active{display:block;}
+.page{display:none;min-height:0;}
+.page.active{display:block;flex:1;min-height:0;overflow-y:auto;}
+#page-journal.active{display:flex;overflow:hidden;}
+#page-journal .journal{width:100%;}
 .insights-wrap{padding:40px 28px;}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
 .stat-card{background:var(--s1);border:1px solid var(--bd);border-radius:var(--r);padding:18px 20px;}
