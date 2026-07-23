@@ -1,4 +1,5 @@
 
+<meta charset="utf-8">
 <title>Thesis — Trading Journal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -314,7 +315,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
     </button>
   </nav>
   <div class="sidebar-footer">
-    <div class="mkt-row"><div class="mkt-dot"></div>NYSE · Open · 2:41 PM ET</div>
+    <div class="mkt-row"><div class="mkt-dot"></div>Robinhood · email sync enabled</div>
     <div class="theme-toggle">
       <button class="theme-btn" id="btnLight" onclick="setTheme('light')">Light</button>
       <button class="theme-btn active" id="btnDark" onclick="setTheme('dark')">Dark</button>
@@ -327,16 +328,16 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <header class="main-header">
     <div class="header-left">
       <div class="main-title">Trading Journal</div>
-      <div class="main-date">Tuesday, July 22, 2026</div>
+      <div class="main-date" id="journalDate">Email-synced thesis entries</div>
     </div>
     <div class="header-right">
       <button class="btn-outline">
         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
         Export
       </button>
-      <button class="btn-alert" onclick="openCapture('equity')">
+      <button class="btn-alert" type="button">
         <div class="alert-dot"></div>
-        New Trade Alert
+        Email-synced journal
       </button>
     </div>
   </header>
@@ -345,20 +346,20 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <div id="page-journal" class="page active">
     <div class="journal">
 
-      <div class="alert-banner" onclick="openCapture('equity')">
+      <div class="alert-banner" id="syncBanner">
         <div class="alert-icon">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
         </div>
         <div class="alert-body">
-          <div class="alert-tag">Trade Confirmation Detected</div>
-          <div class="alert-msg">Schwab · <strong>META</strong> · Bought 20 shares @ $573.45 · Today 2:31 PM — add your thesis before markets close</div>
+          <div class="alert-tag">Robinhood email sync</div>
+          <div class="alert-msg" id="syncMessage">Loading journaled trades from the synced data file…</div>
         </div>
-        <div class="alert-cta">Add thesis <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></div>
+        <div class="alert-cta">Thesis-backed <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></div>
       </div>
 
-      <div class="section-lbl">This Week — 5 Trades · 3 options</div>
+      <div class="section-lbl" id="journalSummary">Loading trades…</div>
 
-      <div class="trade-list">
+      <div class="trade-list" id="journalTradeList">
 
         <!-- ── META Pending (equity) ──────────────────────────────────── -->
         <div class="trade" tabindex="0" onclick="toggleTrade(this)" data-id="meta">
@@ -652,11 +653,9 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <!-- Insights page -->
   <div id="page-insights" class="page">
     <div class="insights-wrap">
-      <div class="section-lbl" style="margin-bottom:16px">Performance — Last 30 Days</div>
-      <div class="stat-grid">
-        <div class="stat-card"><div class="stat-card-l">Net P&amp;L</div><div class="stat-card-v profit">+$1,930</div><div class="stat-card-sub">After commissions</div></div>
-        <div class="stat-card"><div class="stat-card-l">Win Rate</div><div class="stat-card-v">67<span style="font-size:1rem;color:var(--t2)">%</span></div><div class="stat-card-sub">8 wins / 4 losses</div></div>
-        <div class="stat-card"><div class="stat-card-l">Options Trades</div><div class="stat-card-v">58<span style="font-size:1rem;color:var(--t2)">%</span></div><div class="stat-card-sub">7 of 12 trades</div></div>
+      <div class="section-lbl" style="margin-bottom:16px">Journal coverage</div>
+      <div class="stat-grid" id="journalInsights">
+        <div class="stat-card"><div class="stat-card-l">Loading</div><div class="stat-card-v">—</div><div class="stat-card-sub">Synced journal data</div></div>
       </div>
       <div class="chart-placeholder">
         <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
@@ -669,11 +668,11 @@ body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:v
   <div id="page-settings" class="page">
     <div class="settings-wrap">
       <div class="settings-title">Settings</div>
-      <div class="setting-row"><div><div class="setting-label">Email monitoring</div><div class="setting-sub">sk1meta@gmail.com · Schwab confirmations</div></div><button class="toggle-pill" onclick="this.classList.toggle('off')"></button></div>
+      <div class="setting-row"><div><div class="setting-label">Email monitoring</div><div class="setting-sub">sanjaysfo@gmail.com · Robinhood confirmations</div></div><button class="toggle-pill" onclick="this.classList.toggle('off')"></button></div>
       <div class="setting-row"><div><div class="setting-label">Auto-group spread legs</div><div class="setting-sub">Match near-simultaneous fills on same underlying + expiry</div></div><button class="toggle-pill" onclick="this.classList.toggle('off')"></button></div>
       <div class="setting-row"><div><div class="setting-label">Minimum thesis length</div><div class="setting-sub">Characters required before saving</div></div><div class="setting-value">80 chars</div></div>
       <div class="setting-row"><div><div class="setting-label">Pause before typing</div><div class="setting-sub">Force a reflection pause before thesis input unlocks</div></div><button class="toggle-pill" onclick="this.classList.toggle('off')"></button></div>
-      <div class="setting-row"><div><div class="setting-label">Connected broker</div><div class="setting-sub">Parsing email confirmations</div></div><div class="setting-value">Charles Schwab</div></div>
+      <div class="setting-row"><div><div class="setting-label">Connected broker</div><div class="setting-sub">Parsing email confirmations</div></div><div class="setting-value">Robinhood</div></div>
     </div>
   </div>
 </main>
@@ -838,6 +837,147 @@ function toggleTrade(el) {
   document.querySelectorAll('.trade.expanded').forEach(t => t.classList.remove('expanded'));
   if (!was) el.classList.add('expanded');
 }
+
+// ── Email-synced journal data ───────────────────────────────────────────────
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>'\"]/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  }[c]));
+}
+
+function formatDate(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? 'Recorded date unavailable' : date.toLocaleDateString(undefined, {
+    month: 'short', day: 'numeric', year: 'numeric'
+  });
+}
+
+function formatMoney(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? new Intl.NumberFormat('en-US', {
+    style: 'currency', currency: 'USD', maximumFractionDigits: 2
+  }).format(number) : '—';
+}
+
+function contractLabel(trade) {
+  if (trade.strategy) return `${trade.quantity}× ${trade.strategy}`;
+  if (trade.assetType !== 'option') return `${trade.quantity} share${Number(trade.quantity) === 1 ? '' : 's'}`;
+  const type = trade.callPut ? `${trade.callPut[0].toUpperCase()}${trade.callPut.slice(1)}` : 'Option';
+  const strike = trade.strike != null ? `$${trade.strike}` : '';
+  const expiry = trade.expiry ? ` · ${trade.expiry} expiry` : '';
+  return `${trade.quantity}× ${strike} ${type}${expiry}`.replace(/\s+/g, ' ').trim();
+}
+
+function entryLabel(trade) {
+  if (trade.strategy && trade.strategyLegs?.recorded_total_debit != null) {
+    return `Net debit ${formatMoney(trade.strategyLegs.recorded_total_debit)}`;
+  }
+  return trade.assetType === 'option'
+    ? `${formatMoney(trade.entryPrice)} / contract`
+    : formatMoney(trade.entryPrice);
+}
+
+function convictionDots(conviction) {
+  const count = Math.max(0, Math.min(5, Number(conviction) || 0));
+  return `<div class="conviction" aria-label="Conviction ${count} out of 5">${Array.from({ length: 5 }, (_, i) =>
+    `<div class="cdot${i < count ? ' on' : ''}"></div>`).join('')}</div>`;
+}
+
+function exitChips(trade) {
+  const chips = [];
+  if (trade.stopPlan) chips.push(`<span class="exit-chip stop">${escapeHTML(trade.stopPlan)}</span>`);
+  if (trade.sellTarget != null) chips.push(`<span class="exit-chip target">Target ${formatMoney(trade.sellTarget)}</span>`);
+  if (!chips.length) chips.push('<span class="exit-chip unset">Plan recorded in journal</span>');
+  return chips.join('');
+}
+
+function researchMarkup(research) {
+  if (!research) return '';
+  const url = String(research.url || '');
+  const safeUrl = /^https:\/\//.test(url) ? url : '';
+  const label = `${research.recommendation || 'Research log'} · ${research.date || 'undated'}`;
+  return safeUrl
+    ? `<a class="etag" href="${escapeHTML(safeUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHTML(label)} ↗</a>`
+    : `<span class="etag">${escapeHTML(label)}</span>`;
+}
+
+function renderTrade(trade) {
+  const direction = trade.action === 'sell' ? 'short' : 'long';
+  const optionChip = trade.assetType === 'option'
+    ? `<span class="chip ${trade.callPut === 'put' ? 'put' : 'call'}">${escapeHTML(trade.callPut || trade.strategy || 'Option')}</span>`
+    : '<span class="chip long">Equity</span>';
+  const tags = [trade.strategy, trade.source, trade.horizon].filter(Boolean)
+    .map(tag => `<span class="etag">${escapeHTML(tag)}</span>`).join('');
+  const research = researchMarkup(trade.researchLog);
+  const stop = trade.stopPlan || 'No fixed stop recorded';
+  const target = trade.sellPlan || 'No separate sell plan recorded';
+  return `
+    <article class="trade" tabindex="0" onclick="toggleTrade(this)" data-id="journal-${escapeHTML(trade.id)}">
+      <div class="trade-stripe pending"></div>
+      <div class="trade-body">
+        <div class="trade-top">
+          <div class="trade-lhs">
+            <div class="ticker">${escapeHTML(trade.ticker)}</div>
+            <div class="ticker-sub">
+              <span class="company">${escapeHTML(trade.broker || 'Email-synced trade')} · diary #${escapeHTML(trade.id)}</span>
+              <span class="chip ${direction}">${escapeHTML(trade.action || 'trade')}</span>
+              ${optionChip}
+            </div>
+            <div class="trade-contract">${escapeHTML(contractLabel(trade))}</div>
+          </div>
+          <div class="trade-rhs">
+            <div class="pnl pending">P&amp;L not imported</div>
+            <div class="exit-row">${exitChips(trade)}</div>
+          </div>
+        </div>
+        <div class="trade-thesis">${escapeHTML(trade.thesis || 'No thesis recorded.')}</div>
+        <div class="trade-stats">
+          <div class="stat"><div class="stat-l">Entry</div><div class="stat-v">${escapeHTML(entryLabel(trade))}</div></div>
+          <div class="stat"><div class="stat-l">Qty</div><div class="stat-v">${escapeHTML(String(trade.quantity))}</div></div>
+          <div class="stat"><div class="stat-l">Entered</div><div class="stat-v">${escapeHTML(formatDate(trade.tradeDate))}</div></div>
+          <div class="stat"><div class="stat-l">Horizon</div><div class="stat-v">${escapeHTML(trade.horizon || '—')}</div></div>
+          ${convictionDots(trade.conviction)}
+        </div>
+      </div>
+      <div class="trade-expand">
+        <div class="expand-tags">${tags}${research}</div>
+        <div class="expand-stats">
+          <div class="expand-stat"><div class="stat-l">Thesis source</div><div class="stat-v">${escapeHTML(trade.source || '—')}</div></div>
+          <div class="expand-stat"><div class="stat-l">Sell plan</div><div class="stat-v">${escapeHTML(target)}</div></div>
+          <div class="expand-stat"><div class="stat-l">Alert</div><div class="stat-v">${escapeHTML(trade.alert || '—')}</div></div>
+          <div class="expand-stat"><div class="stat-l">Risk notes</div><div class="stat-v">${escapeHTML(trade.risks || stop)}</div></div>
+        </div>
+      </div>
+    </article>`;
+}
+
+async function loadJournal() {
+  const list = document.getElementById('journalTradeList');
+  try {
+    const response = await fetch('trades.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    const trades = Array.isArray(data.trades) ? data.trades : [];
+    const optionCount = trades.filter(trade => trade.assetType === 'option').length;
+    const averageConviction = trades.length
+      ? (trades.reduce((sum, trade) => sum + (Number(trade.conviction) || 0), 0) / trades.length).toFixed(1)
+      : '—';
+    list.innerHTML = trades.length ? trades.map(renderTrade).join('') : '<div class="empty">No journaled trades have been synced yet.</div>';
+    document.getElementById('journalSummary').textContent = `${trades.length} journaled trade${trades.length === 1 ? '' : 's'} · ${optionCount} option position${optionCount === 1 ? '' : 's'}`;
+    document.getElementById('journalDate').textContent = `Last data sync: ${formatDate(data.generatedAt)}`;
+    document.getElementById('syncMessage').innerHTML = `<strong>${trades.length} thesis-backed Robinhood trades</strong> synced from email confirmations. Click a card to review its plan and risks.`;
+    document.getElementById('journalInsights').innerHTML = `
+      <div class="stat-card"><div class="stat-card-l">Journaled trades</div><div class="stat-card-v">${trades.length}</div><div class="stat-card-sub">Thesis-complete email confirmations</div></div>
+      <div class="stat-card"><div class="stat-card-l">Option positions</div><div class="stat-card-v">${optionCount}</div><div class="stat-card-sub">Of ${trades.length} journaled trades</div></div>
+      <div class="stat-card"><div class="stat-card-l">Average conviction</div><div class="stat-card-v">${averageConviction}<span style="font-size:1rem;color:var(--t2)"> / 5</span></div><div class="stat-card-sub">User-recorded at entry</div></div>`;
+  } catch (error) {
+    list.innerHTML = '<div class="empty">Journal data could not be loaded. Please refresh the page.</div>';
+    document.getElementById('journalSummary').textContent = 'Journal data unavailable';
+    document.getElementById('syncMessage').textContent = 'The synced journal data file could not be loaded.';
+  }
+}
+
+loadJournal();
 
 // Capture overlay
 let pauseTimer = null;
